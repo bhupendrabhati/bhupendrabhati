@@ -3,7 +3,13 @@ I'm currently learning cloud (AWS & Azure) and DevOps.
 
 
 ## 🌐 Socials:
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/bhupendrabhati) [![Medium](https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white)](https://medium.com/@bhupendrabhati) [![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/bhupendra_bhati) [![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:bhupendrabhati05@gmail.com) 
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/bhupendrabhati) 
+[![Medium](https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white)](https://medium.com/@bhupendrabhati) 
+[![X](https://img.shields.io/badge/X-black.svg?logo=X&logoColor=white)](https://x.com/bhupendra_bhati) 
+[![email](https://img.shields.io/badge/Email-D14836?logo=gmail&logoColor=white)](mailto:bhupendrabhati05@gmail.com) 
+[![Facebook](https://img.shields.io/badge/Facebook-%231877F2.svg?logo=facebook&logoColor=white)](https://facebook.com/PalEkHaseenLamha)
+[![Notion](https://img.shields.io/badge/Notion-%23000000.svg?logo=notion&logoColor=white)](https://notion.so/YOUR_PAGE_LINK)
+
 
 # 💻 Tech Stack:
 ## 🚀 Tech Stack
