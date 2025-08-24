@@ -1,5 +1,6 @@
 # 💫 About Me:
-I'm currently learning cloud (AWS & Azure) and DevOps. 
+Cloud (AWS & Azure) and DevOps Enthusiast.
+Music Lover, Writer @PalEkHaseenLamha 
 
 
 ## 🌐 Socials:
