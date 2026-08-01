@@ -192,9 +192,10 @@ def fit_logo(logo_grid):
     ]
 
 
-def logo_layers(logos_data, fill):
-    """One path-dot layer per cloud logo, each fading in during its slot on the
-    loop while the portrait fades out (path-based, so it renders reliably)."""
+def logo_layers(logos_data, fill, label_fill):
+    """One path-dot layer per cloud logo plus a name label below it, each fading
+    in during its slot on the loop while the portrait fades out (path-based, so
+    it renders reliably)."""
     out = []
     for name, kt, val in LOGO_SLOTS:
         out.append(
@@ -203,6 +204,12 @@ def logo_layers(logos_data, fill):
             '<animate attributeName="opacity" values="%s" keyTimes="%s" dur="13.9s" '
             'begin="3.2s" repeatCount="indefinite"/>\n'
             '<path d="%s"/>\n</g>\n' % (fill, val, kt, runs(fit_logo(logos_data[name])))
+        )
+        out.append(
+            '<g opacity="0"><animate attributeName="opacity" values="%s" keyTimes="%s" '
+            'dur="13.9s" begin="3.2s" repeatCount="indefinite"/>'
+            '<text x="236" y="500" text-anchor="middle" font-size="16" letter-spacing="5" '
+            'font-weight="600" fill="%s">%s</text></g>\n' % (val, kt, label_fill, name.upper())
         )
     return "".join(out)
 
@@ -301,8 +308,8 @@ def build_theme(name, portrait_dots, logos_data, rng):
     a(drift_bands(positions, target, rng, pick_band_cell(positions, rng)))
     a("</g>\n")
 
-    # logo layers — AWS / Azure / GCP / DevOps fade in on their loop slots
-    a(logo_layers(logos_data, t["port"]))
+    # logo layers — AWS / Azure / GCP / DevOps with name labels
+    a(logo_layers(logos_data, t["port"], t["info"]))
 
     # corner brackets
     c = t["corner"]
