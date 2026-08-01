@@ -64,7 +64,13 @@ Living log of the session building Bhupendra Bhati's animated GitHub profile
       (the same mechanism as the portrait, which renders reliably), scaled 1.2x
       and centered in the frame (px 133–340 × 267–412), fading in while the
       portrait fades out on the 13.9s loop. Azure/GCP cycle removed. File
-      sizes dropped to ~494 KB (dark) / ~889 KB (light).
+      sizes       dropped to ~494 KB (dark) / ~889 KB (light).
+- [x] **Four cloud logos** (per Bhupendra): extended the path-based logo layer
+      to AWS, Azure, GCP and DevOps. Each logo is scaled to fit ~175x118 grid
+      units (aspect preserved), centred in the frame, and gets its own slot in
+      the 13.9s loop (keytimes 0.30–0.435 / 0.435–0.57 / 0.57–0.705 /
+      0.705–0.90) with quick cross-fades. Portrait stays hidden during the logo
+      window. Files ~516 KB (dark) / ~911 KB (light).
 
 ## Manual steps (for Bhupendra)
 

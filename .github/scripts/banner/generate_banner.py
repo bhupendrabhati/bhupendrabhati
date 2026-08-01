@@ -7,10 +7,11 @@ Structure (matches the approved reference style, per Prompt.md):
 - defs: accent, asciiGrad, panelGrad, glow8, glow3, txtGlow, winClip, tv rect
 - chrome: title bar, VISUAL.MAP label, portrait frame, corner brackets
 - portrait layer 1: ~60 interleaved random groups fade in (0.2s..2.17s)
-- portrait layer 2: ~94 drift bands, each translating ~42% toward the AWS
-  logo centroid while fading, on the 13.9s loop
-- AWS logo layer: the AWS wordmark drawn as path dots (same mechanism as the
-  portrait so it renders reliably), fading in while the portrait fades out
+- portrait layer 2: ~94 drift bands, each translating ~42% toward the logo
+  centroid while fading, on the 13.9s loop
+- logo layers: AWS, Azure, GCP and DevOps wordmarks drawn as path dots (same
+  mechanism as the portrait so they render reliably), each fading in during its
+  own slot of the loop while the portrait is hidden
 - SYSTEM.INFO panel with dotted leaders, LIVE badge, email pill, 16 rows
 
 Usage: python generate_banner.py [--outdir .] [--portrait-dots 900]
@@ -26,8 +27,15 @@ GRID_W, GRID_H = 300, 340
 N_INTRO = 60
 BAND_NOISE = 4.0
 DRIFT_K = 0.44
-AWS_SCALE = 1.2
-AWS_CENTER = (150, 175)
+LOGO_TARGET = (150, 175)          # grid-space centre for each scaled logo
+LOGO_MAX = (175, 118)             # max grid-space w,h a logo may occupy
+# each logo gets a slot in the 13.9s loop (keytimes/opacity values)
+LOGO_SLOTS = [
+    ("aws",   "0;0.300;0.320;0.415;0.435;1", "0;0;1;1;0;0"),
+    ("azure", "0;0.435;0.455;0.550;0.570;1", "0;0;1;1;0;0"),
+    ("gcp",   "0;0.570;0.590;0.685;0.705;1", "0;0;1;1;0;0"),
+    ("devops","0;0.705;0.725;0.880;0.900;1", "0;0;1;1;0;0"),
+]
 KEYTIMES = "0.000;0.194;0.288;0.432;0.525;0.669;0.763;0.906;1.000"
 
 PILL_EMAIL = "bhupendrabhati05@gmail.com"
@@ -167,26 +175,36 @@ def drift_bands(positions, target, rng, cell):
     return "".join(out)
 
 
-def aws_logo_layer(logo_grid, fill):
-    """AWS wordmark as path dots, scaled around its own centre, fading in on
-    the loop while the portrait fades out (replaces the use-based travellers
-    which did not render reliably)."""
+def fit_logo(logo_grid):
+    """Scale a logo grid to fit LOGO_MAX (aspect preserved), centred at
+    LOGO_TARGET, returning dot positions in grid coords."""
     ys, xs = np.nonzero(logo_grid)
+    w = xs.max() - xs.min() + 1
+    h = ys.max() - ys.min() + 1
+    scale = min(LOGO_MAX[0] / w, LOGO_MAX[1] / h)
     cxs = (xs.min() + xs.max()) / 2.0
     cys = (ys.min() + ys.max()) / 2.0
-    tx, ty = AWS_CENTER
-    pts = [
-        (int(round(tx + (float(x) - cxs) * AWS_SCALE)),
-         int(round(ty + (float(y) - cys) * AWS_SCALE)))
+    tx, ty = LOGO_TARGET
+    return [
+        (int(round(tx + (float(x) - cxs) * scale)),
+         int(round(ty + (float(y) - cys) * scale)))
         for x, y in zip(xs.tolist(), ys.tolist())
     ]
-    return (
-        '<g transform="translate(50,86) scale(1.2400,1.4471)" fill="%s" '
-        'shape-rendering="crispEdges" opacity="0">\n'
-        '<animate attributeName="opacity" values="0;0;1;1;1;1;1;1;0" '
-        'keyTimes="%s" dur="13.9s" begin="3.2s" repeatCount="indefinite"/>\n'
-        '<path d="%s"/>\n</g>\n' % (fill, KEYTIMES, runs(pts))
-    )
+
+
+def logo_layers(logos_data, fill):
+    """One path-dot layer per cloud logo, each fading in during its slot on the
+    loop while the portrait fades out (path-based, so it renders reliably)."""
+    out = []
+    for name, kt, val in LOGO_SLOTS:
+        out.append(
+            '<g transform="translate(50,86) scale(1.2400,1.4471)" fill="%s" '
+            'shape-rendering="crispEdges" opacity="0">\n'
+            '<animate attributeName="opacity" values="%s" keyTimes="%s" dur="13.9s" '
+            'begin="3.2s" repeatCount="indefinite"/>\n'
+            '<path d="%s"/>\n</g>\n' % (fill, val, kt, runs(fit_logo(logos_data[name])))
+        )
+    return "".join(out)
 
 
 def info_panel(t):
@@ -210,7 +228,7 @@ def info_panel(t):
 def build_theme(name, portrait_dots, logos_data, rng):
     t = THEMES[name]
     positions = dots_to_positions(portrait_dots)
-    target = AWS_CENTER
+    target = LOGO_TARGET
 
     s = []
     a = s.append
@@ -283,8 +301,8 @@ def build_theme(name, portrait_dots, logos_data, rng):
     a(drift_bands(positions, target, rng, pick_band_cell(positions, rng)))
     a("</g>\n")
 
-    # AWS logo layer — fades in on the loop while the portrait fades out
-    a(aws_logo_layer(logos_data["aws"], t["port"]))
+    # logo layers — AWS / Azure / GCP / DevOps fade in on their loop slots
+    a(logo_layers(logos_data, t["port"]))
 
     # corner brackets
     c = t["corner"]
