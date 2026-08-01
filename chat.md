@@ -58,6 +58,13 @@ Living log of the session building Bhupendra Bhati's animated GitHub profile
 - [x] Filled `projects.json` (12 repos) and verified the fetch_data.py +
       generate_projects.py pipeline end-to-end locally (live stars /
       languages / pushed_at merged; both theme SVGs render).
+- [x] **AWS-only visual** (per Bhupendra): the 3-logo morph used 900 `<use>`
+      rects driven by SMIL `animateTransform`, which did not render on his
+      profile. Replaced it with the AWS wordmark drawn as a `<path>` dot layer
+      (the same mechanism as the portrait, which renders reliably), scaled 1.2x
+      and centered in the frame (px 133–340 × 267–412), fading in while the
+      portrait fades out on the 13.9s loop. Azure/GCP cycle removed. File
+      sizes dropped to ~494 KB (dark) / ~889 KB (light).
 
 ## Manual steps (for Bhupendra)
 

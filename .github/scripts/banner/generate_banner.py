@@ -7,10 +7,10 @@ Structure (matches the approved reference style, per Prompt.md):
 - defs: accent, asciiGrad, panelGrad, glow8, glow3, txtGlow, winClip, tv rect
 - chrome: title bar, VISUAL.MAP label, portrait frame, corner brackets
 - portrait layer 1: ~60 interleaved random groups fade in (0.2s..2.17s)
-- portrait layer 2: ~94 drift bands, each translating ~42% toward the first
+- portrait layer 2: ~94 drift bands, each translating ~42% toward the AWS
   logo centroid while fading, on the 13.9s loop
-- travellers: ~900 dots morphing between three logos (optimal-transport-ish
-  rank matching so each takes a short path), hidden during the portrait phase
+- AWS logo layer: the AWS wordmark drawn as path dots (same mechanism as the
+  portrait so it renders reliably), fading in while the portrait fades out
 - SYSTEM.INFO panel with dotted leaders, LIVE badge, email pill, 16 rows
 
 Usage: python generate_banner.py [--outdir .] [--portrait-dots 900]
@@ -25,11 +25,9 @@ DEFAULT_OUT = os.path.join(HERE, "..", "..", "..")   # repo root
 GRID_W, GRID_H = 300, 340
 N_INTRO = 60
 BAND_NOISE = 4.0
-N_TRAVELLERS = 900
 DRIFT_K = 0.44
-MORPH_LOGOS = ["aws", "gcp", "azure"]
-LOGO_SIZE = 140
-LOGO_CENTERS = [(150, 180), (135, 195), (165, 195)]
+AWS_SCALE = 1.2
+AWS_CENTER = (150, 175)
 KEYTIMES = "0.000;0.194;0.288;0.432;0.525;0.669;0.763;0.906;1.000"
 
 PILL_EMAIL = "bhupendrabhati05@gmail.com"
@@ -111,11 +109,6 @@ def dots_to_positions(dots):
     return list(zip(xs.tolist(), ys.tolist()))
 
 
-def spiral_key(pos, cx, cy):
-    px, py = pos
-    return (math.atan2(py - cy, px - cx), (px - cx) ** 2 + (py - cy) ** 2)
-
-
 def intro_groups(positions):
     """60 interleaved groups: dot i -> group i%60, scattered across the portrait."""
     groups = [[] for _ in range(N_INTRO)]
@@ -174,51 +167,26 @@ def drift_bands(positions, target, rng, cell):
     return "".join(out)
 
 
-def build_logos(logos_data):
-    """Embed each morph logo grid into grid coords; return dot lists per logo."""
-    per = []
-    for i, name in enumerate(MORPH_LOGOS):
-        g = logos_data[name]
-        cx, cy = LOGO_CENTERS[i]
-        ox, oy = cx - LOGO_SIZE // 2, cy - LOGO_SIZE // 2
-        ys, xs = np.nonzero(g)
-        pts = [(ox + int(x), oy + int(y)) for x, y in zip(xs.tolist(), ys.tolist())]
-        per.append(pts)
-    return per
-
-
-def travellers(portrait_positions, logos_pts, rng, n, tv):
-    """~n dots morphing portrait -> logo1 -> logo2 -> logo3 -> portrait."""
-    idx = rng.sample(range(len(portrait_positions)), n)
-    pts0 = [portrait_positions[i] for i in idx]
-    # rank-match by spiral order around each logo's centre for short paths
-    matched = []
-    for i, logo in enumerate(logos_pts):
-        cx, cy = LOGO_CENTERS[i]
-        pts0_sorted = sorted(pts0, key=lambda p: spiral_key(p, cx, cy))
-        logo_sorted = sorted(logo, key=lambda p: spiral_key(p, cx, cy))
-        if not logo_sorted:
-            raise SystemExit("logo %s has no dots" % MORPH_LOGOS[i])
-        targets = {}
-        for rank, p in enumerate(pts0_sorted):
-            targets[id(p)] = logo_sorted[rank % len(logo_sorted)]
-        matched.append(targets)
-    out = []
-    for p in pts0:
-        p1 = matched[0][id(p)]
-        p2 = matched[1][id(p)]
-        p3 = matched[2][id(p)]
-        out.append(
-            '<use href="#%s" opacity="0"><animate attributeName="opacity" '
-            'values="0;0;1;1;1;1;1;1;0" keyTimes="%s" dur="13.9s" begin="3.2s" '
-            'repeatCount="indefinite"/><animateTransform attributeName="transform" '
-            'type="translate" values="%d %d;%d %d;%d %d;%d %d;%d %d;%d %d;%d %d;%d %d;%d %d" '
-            'keyTimes="%s" dur="13.9s" begin="3.2s" repeatCount="indefinite"/></use>\n'
-            % (tv, KEYTIMES, p[0], p[1], p[0], p[1],
-               p1[0], p1[1], p1[0], p1[1], p2[0], p2[1], p2[0], p2[1],
-               p3[0], p3[1], p3[0], p3[1], p[0], p[1], KEYTIMES)
-        )
-    return "".join(out)
+def aws_logo_layer(logo_grid, fill):
+    """AWS wordmark as path dots, scaled around its own centre, fading in on
+    the loop while the portrait fades out (replaces the use-based travellers
+    which did not render reliably)."""
+    ys, xs = np.nonzero(logo_grid)
+    cxs = (xs.min() + xs.max()) / 2.0
+    cys = (ys.min() + ys.max()) / 2.0
+    tx, ty = AWS_CENTER
+    pts = [
+        (int(round(tx + (float(x) - cxs) * AWS_SCALE)),
+         int(round(ty + (float(y) - cys) * AWS_SCALE)))
+        for x, y in zip(xs.tolist(), ys.tolist())
+    ]
+    return (
+        '<g transform="translate(50,86) scale(1.2400,1.4471)" fill="%s" '
+        'shape-rendering="crispEdges" opacity="0">\n'
+        '<animate attributeName="opacity" values="0;0;1;1;1;1;1;1;0" '
+        'keyTimes="%s" dur="13.9s" begin="3.2s" repeatCount="indefinite"/>\n'
+        '<path d="%s"/>\n</g>\n' % (fill, KEYTIMES, runs(pts))
+    )
 
 
 def info_panel(t):
@@ -241,10 +209,8 @@ def info_panel(t):
 
 def build_theme(name, portrait_dots, logos_data, rng):
     t = THEMES[name]
-    tv = t["tv"]
     positions = dots_to_positions(portrait_dots)
-    logos_pts = build_logos(logos_data)
-    target = LOGO_CENTERS[0]
+    target = AWS_CENTER
 
     s = []
     a = s.append
@@ -285,7 +251,6 @@ def build_theme(name, portrait_dots, logos_data, rng):
       '<feGaussianBlur stdDeviation="0.9" result="b"/><feMerge>'
       '<feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>\n')
     a('<clipPath id="winClip"><rect x="2" y="2" width="1176" height="606" rx="18"/></clipPath>\n')
-    a('<rect id="%s" width="2.4" height="1.7" fill="%s"/>\n' % (tv, t["port"]))
     a("</defs>\n")
     a('<rect x="2" y="2" width="1176" height="606" rx="18" fill="%s"/>\n' % t["bg"])
     a('<g clip-path="url(#winClip)">\n')
@@ -318,10 +283,8 @@ def build_theme(name, portrait_dots, logos_data, rng):
     a(drift_bands(positions, target, rng, pick_band_cell(positions, rng)))
     a("</g>\n")
 
-    # travellers — morph between the three logos
-    a('<g transform="translate(50,86) scale(1.2400,1.4471)">\n')
-    a(travellers(positions, logos_pts, rng, N_TRAVELLERS, t["tv"]))
-    a("</g>\n")
+    # AWS logo layer — fades in on the loop while the portrait fades out
+    a(aws_logo_layer(logos_data["aws"], t["port"]))
 
     # corner brackets
     c = t["corner"]
@@ -358,7 +321,6 @@ def main():
     import argparse
     ap = argparse.ArgumentParser()
     ap.add_argument("--outdir", default=DEFAULT_OUT)
-    ap.add_argument("--n-travellers", type=int, default=N_TRAVELLERS)
     ap.add_argument("--seed", type=int, default=42)
     args = ap.parse_args()
 
@@ -373,7 +335,7 @@ def main():
         path = os.path.join(out, "%s.svg" % theme)
         with open(path, "w") as f:
             f.write(svg)
-        print("%s: %d KB, %d travellers" % (theme, len(svg) // 1024, args.n_travellers))
+        print("%s: %d KB" % (theme, len(svg) // 1024))
 
 
 if __name__ == "__main__":
