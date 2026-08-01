@@ -1,0 +1,12 @@
+# Reference-only template (never push Arif Hasan's setup)
+arifhaxn/
+
+# macOS
+.DS_Store
+
+# Python
+.venv/
+__pycache__/
+
+# Local assets
+BB.png

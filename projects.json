@@ -1,0 +1,74 @@
+[
+  {
+    "name": "epicbook-terraform",
+    "repo": "bhupendrabhati/epicbook-terraform",
+    "description": "Production-grade AWS infrastructure provisioning with Terraform — modular architecture and secure best practices.",
+    "tags": ["Terraform", "AWS", "IaC"]
+  },
+  {
+    "name": "IndraNet",
+    "repo": "bhupendrabhati/IndraNet",
+    "description": "Cross-platform desktop app that turns multiple LAN computers into a single unified developer workspace.",
+    "tags": ["Rust", "Desktop", "Networking"]
+  },
+  {
+    "name": "AI-CLI",
+    "repo": "bhupendrabhati/AI-CLI",
+    "description": "Terminal AI assistant to write code and answer questions — in active development.",
+    "tags": ["TypeScript", "AI", "CLI"]
+  },
+  {
+    "name": "BB-CloudSight",
+    "repo": "bhupendrabhati/BB-CloudSight",
+    "description": "AWS Service Tracker — keep an eye on your cloud services from one dashboard.",
+    "tags": ["Python", "AWS", "Monitoring"]
+  },
+  {
+    "name": "SankalanTab",
+    "repo": "bhupendrabhati/SankalanTab",
+    "description": "A designed browser tab for a cleaner, calmer new-tab experience.",
+    "tags": ["TypeScript", "Browser", "UI"]
+  },
+  {
+    "name": "CodeEditorPlugins",
+    "repo": "bhupendrabhati/CodeEditorPlugins",
+    "description": "Plugin that generates Terraform code instantly from a short input prompt.",
+    "tags": ["TypeScript", "Terraform", "Plugin"]
+  },
+  {
+    "name": "bhupendrabhati-portfolio",
+    "repo": "bhupendrabhati/bhupendrabhati-portfolio",
+    "description": "Personal portfolio website showcasing skills and updated projects.",
+    "tags": ["HTML", "Portfolio", "Web"]
+  },
+  {
+    "name": "KALATHMIKA",
+    "repo": "bhupendrabhati/KALATHMIKA",
+    "description": "KALATHMIKA Architectural Studio — website for the studio.",
+    "tags": ["HTML", "Website", "Studio"]
+  },
+  {
+    "name": "KALATHMIKA-ARCHITECTURAL-STUDIO",
+    "repo": "bhupendrabhati/KALATHMIKA-ARCHITECTURAL-STUDIO",
+    "description": "Styled companion to the KALATHMIKA Architectural Studio site.",
+    "tags": ["CSS", "Styling", "Studio"]
+  },
+  {
+    "name": "Bhupen-AI-Agent",
+    "repo": "bhupendrabhati/Bhupen-AI-Agent",
+    "description": "Beginner-level AI agent project — first steps into agentic AI.",
+    "tags": ["HTML", "AI", "Beginner"]
+  },
+  {
+    "name": "DMI-LMS-Infra-001",
+    "repo": "bhupendrabhati/DMI-LMS-Infra-001",
+    "description": "Infrastructure as code for the DMI LMS platform.",
+    "tags": ["HCL", "Terraform", "Infra"]
+  },
+  {
+    "name": "All-Python-Codes",
+    "repo": "bhupendrabhati/All-Python-Codes",
+    "description": "Collection of Python practice codes and experiments.",
+    "tags": ["Python", "Learning", "Codes"]
+  }
+]
