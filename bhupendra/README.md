@@ -2,9 +2,9 @@
 <!-- GitHub automatically shows dark.svg in dark mode and light.svg in light mode -->
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/light.svg">
-  <img alt="Bhupendra Bhati" src="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/bhupendra/dark.svg?v=2">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/bhupendra/light.svg?v=2">
+  <img alt="Bhupendra Bhati" src="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/bhupendra/light.svg?v=2">
 </picture>
 
 <!-- ===== HIGHLIGHTS ===== -->
