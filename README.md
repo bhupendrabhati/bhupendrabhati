@@ -2,9 +2,9 @@
 <!-- GitHub automatically shows dark.svg in dark mode and light.svg in light mode -->
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/bhupendra/dark.svg?v=2">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/bhupendra/light.svg?v=2">
-  <img alt="Bhupendra Bhati" src="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/main/bhupendra/light.svg?v=2">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bhupendrabhati/Dashboard/main/dark.svg?v=2">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/bhupendrabhati/Dashboard/main/light.svg?v=2">
+  <img alt="Bhupendra Bhati" src="https://raw.githubusercontent.com/bhupendrabhati/Dashboard/main/light.svg?v=2">
 </picture>
 
 <!-- ===== HIGHLIGHTS ===== -->
@@ -77,9 +77,9 @@ Passionate about building scalable cloud infrastructure, automating workflows, a
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/output/snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/output/snake-light.svg" />
-  <img alt="Snake eating my contributions" src="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/output/snake-light.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/bhupendrabhati/Dashboard/output/snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/bhupendrabhati/Dashboard/output/snake-light.svg" />
+  <img alt="Snake eating my contributions" src="https://raw.githubusercontent.com/bhupendrabhati/Dashboard/output/snake-light.svg" />
 </picture>
 
 </div>
@@ -88,7 +88,7 @@ Passionate about building scalable cloud infrastructure, automating workflows, a
 
 <div align="center">
 <br/>
-<img width="100%" src="https://raw.githubusercontent.com/bhupendrabhati/bhupendrabhati/projects/projects.svg" alt="Projects" />
+<img width="100%" src="https://raw.githubusercontent.com/bhupendrabhati/Dashboard/projects/projects.svg" alt="Projects" />
 </div>
 
 <!-- ===== SOCIAL BADGES (icon-only, brand colors) ===== -->
