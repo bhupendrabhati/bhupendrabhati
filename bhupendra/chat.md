@@ -129,6 +129,17 @@ visible. I want you to add visual for AWS only."
   GCP, DevOps and just add each logo's name below it.
 - Logo name labels (AWS / AZURE / GCP / DEVOPS) added below the visuals in the
   VISUAL.MAP frame, fading in/out in sync with each logo's slot.
+- Corrected the fourth visual slot label from **DEVOPS** to **GITHUB** after
+  confirming that slot is the GitHub icon.
+- Added a separate **DevOps** visual slot with its own **DEVOPS** label so both
+  GitHub and DevOps now appear independently in the visual cycle.
+- Refined the DevOps visual from a text-only placeholder into an icon treatment,
+  then updated it again to an **infinity-loop DevOps** style so it reads more
+  like a real DevOps symbol in the VISUAL.MAP frame.
+- Fixed broken **GitHub Stats** and **Top Languages** cards in `README.md` by
+  switching from the failing `github-readme-stats.vercel.app` public endpoint
+  (returning 503) to the working `github-readme-stats-sigma-five.vercel.app`
+  mirror.
 - README social badges reduced to **LinkedIn, Medium, Email** only (X and
   Facebook removed). All three are icon-only (`for-the-badge` with an empty
   label), on brand colors, no black background:
